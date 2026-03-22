@@ -1,9 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // 👈 เพิ่ม
+import { useNavigate } from "react-router-dom";
 
 function Login() {
-    const navigate = useNavigate(); // 👈 เพิ่ม
+    const navigate = useNavigate();
 
     const [form, setForm] = useState({
         email: "",
@@ -12,17 +12,10 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         try {
-            const res = await axios.post(
-                "http://localhost:5000/api/auth/login",
-                form
-            );
-
+            const res = await axios.post("http://localhost:5000/api/auth/login", form);
             localStorage.setItem("token", res.data.token);
-            alert(res.data.message);
-
-            navigate("/"); // 👈 ไปหน้า Home
+            navigate("/home");
         } catch (err) {
             alert(err.response?.data?.message || "Login failed");
         }
