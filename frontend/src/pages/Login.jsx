@@ -1,7 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // 👈 เพิ่ม
 
 function Login() {
+    const navigate = useNavigate(); // 👈 เพิ่ม
+
     const [form, setForm] = useState({
         email: "",
         password: "",
@@ -9,11 +12,17 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         try {
-            const res = await axios.post("http://localhost:5000/api/auth/login", form);
+            const res = await axios.post(
+                "http://localhost:5000/api/auth/login",
+                form
+            );
+
             localStorage.setItem("token", res.data.token);
             alert(res.data.message);
-            console.log(res.data.user);
+
+            navigate("/"); // 👈 ไปหน้า Home
         } catch (err) {
             alert(err.response?.data?.message || "Login failed");
         }
@@ -22,15 +31,23 @@ function Login() {
     return (
         <form onSubmit={handleSubmit}>
             <h2>Login</h2>
+
             <input
+                type="email"
                 placeholder="Email"
+                value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
+            <br /><br />
+
             <input
                 type="password"
                 placeholder="Password"
+                value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
             />
+            <br /><br />
+
             <button type="submit">Login</button>
         </form>
     );
