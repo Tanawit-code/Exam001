@@ -10,7 +10,7 @@ npm install -D nodemon
 # FRONTEND
 npm create vite@latest frontend
 
-npm install
+npm install //ใช้อันนี้
 
 npm install axios 
 
