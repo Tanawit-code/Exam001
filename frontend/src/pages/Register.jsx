@@ -1,7 +1,10 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // 👈 เพิ่ม
 
 function Register() {
+    const navigate = useNavigate(); // 👈 เพิ่ม
+
     const [form, setForm] = useState({
         name: "",
         email: "",
@@ -16,13 +19,11 @@ function Register() {
                 "http://localhost:5000/api/auth/register",
                 form
             );
+
             alert(res.data.message);
 
-            setForm({
-                name: "",
-                email: "",
-                password: "",
-            });
+            navigate("/login"); // 👈 ไปหน้า Login (หรือ "/" ก็ได้)
+
         } catch (err) {
             alert(err.response?.data?.message || "Register failed");
         }
@@ -33,22 +34,18 @@ function Register() {
             <h2>Register</h2>
 
             <input
-                type="text"
                 placeholder="Name"
                 value={form.name}
                 onChange={(e) => setForm({ ...form, name: e.target.value })}
             />
-            <br />
-            <br />
+            <br /><br />
 
             <input
-                type="email"
                 placeholder="Email"
                 value={form.email}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
-            <br />
-            <br />
+            <br /><br />
 
             <input
                 type="password"
@@ -56,8 +53,7 @@ function Register() {
                 value={form.password}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
             />
-            <br />
-            <br />
+            <br /><br />
 
             <button type="submit">Register</button>
         </form>
